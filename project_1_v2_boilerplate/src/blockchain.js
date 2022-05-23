@@ -124,7 +124,7 @@ class Blockchain {
             const time = parseInt(message.split(':')[1]);
             let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
 
-            if ((currentTime - time) <= (5 * 1000 * 60)) {
+            if ((currentTime - time) <= (5 * 60)) {
                 const check_valid = bitcoinMessage.verify(message, address, signature);
 
                 if (check_valid) {
@@ -195,14 +195,18 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
-            stars = self.chain.filter(p => p.address === address);
-            if (stars) {
-                resolve(stars);
-            }
-            else {
-                reject("Couldn't find a star with the address");
-            }
+            self.chain.forEach((block) => {
+                let block_data = block.getBData();
+                if (block_data) {
+                    if (block_data.owner === address) {
+                        stars.push(block_data);
+                    }
+                }
+            });
+            resolve(stars);
+
         });
+
     }
 
     /**
