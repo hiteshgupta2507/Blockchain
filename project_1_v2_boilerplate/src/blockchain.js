@@ -70,10 +70,13 @@ class Blockchain {
                 block.height = height + 1;
                 block.previousBlockHash = self.chain[self.height].hash;
                 block.hash = SHA256(JSON.stringify(block)).toString();
-                //await self.validateChain();
-                self.chain.push(block)
-                self.height = self.chain.length - 1;
-                resolve(block);
+                const errolog = await self.validateChain();
+                if (errorLog.lenght <= 0) {
+                    self.chain.push(block)
+                    self.height = self.chain.length - 1;
+                    resolve(block);
+                }
+
             } else {
                 block.height = height + 1;
                 block.hash = SHA256(JSON.stringify(block)).toString();
@@ -218,25 +221,52 @@ class Blockchain {
     validateChain() {
         let self = this;
         let errorLog = [];
-        let hash_error = [];
+        //  let hash_error = [];
         return new Promise(async (resolve, reject) => {
 
-            for (let i = 0; i < self.chain.length; i++) {
-                let error = new BlockClass.Block(self.chain[i]).validate();
-                errorLog.push(error);
-            }
-
-            for (let i = 1; i < self.chain.length; i++) {
-                // if(self.chain.height === 0){
-                //     i++;
-                // }
-                if (self.chain.previousBlockHash !== self.chain[i - 1].previousBlockHash) {
-                    const message = `Block ${i} hash doesn't match with previous block`;
-                    hash_error.push(message);
+            const promises = [];
+            const blockindex = 0;
+            self.chain.forEach(block => {
+                promises.push(block.validate());
+                if (block.height > 0) {
+                    let previousBlockHash = block.previousBlockHash;
+                    let blockHash = chain[blockindex - 1].hash;
+                    if (blockHash != previousBlockHash) {
+                        errorLog.push(`Hash do not match ${block.height} .`);
+                    }
                 }
-            }
+                blockindex++;
+            });
 
-            resolve(errorLog);
+            Promise.all(promises).then((results) => {
+                blockindex = 0;
+                results.forEach(valid => {
+                    if (!valid) {
+                        errorLog.push(` ${self.chain[blockindex].height} is tampered.`);
+                    }
+                    blockindex++;
+                });
+                resolve(errorLog);
+            }).catch((error) => { console.log(error); reject(error) });
+
+
+
+            // for (let i = 0; i < self.chain.length; i++) {
+            //     let error = new BlockClass.Block(self.chain[i]).validate();
+            //     errorLog.push(error);
+            // }
+
+            // for (let i = 1; i < self.chain.length; i++) {
+            //     // if(self.chain.height === 0){
+            //     //     i++;
+            //     // }
+            //     if (self.chain.previousBlockHash !== self.chain[i - 1].previousBlockHash) {
+            //         const message = `Block ${i} hash doesn't match with previous block`;
+            //         hash_error.push(message);
+            //     }
+            // }
+
+            // resolve(errorLog);
 
 
 
