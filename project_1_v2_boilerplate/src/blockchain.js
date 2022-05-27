@@ -70,8 +70,8 @@ class Blockchain {
                 block.height = height + 1;
                 block.previousBlockHash = self.chain[self.height].hash;
                 block.hash = SHA256(JSON.stringify(block)).toString();
-                const errolog = await self.validateChain();
-                if (errorLog.lenght <= 0) {
+                let errorlog = await self.validateChain();
+                if (errorlog.length <= 0) {
                     self.chain.push(block)
                     self.height = self.chain.length - 1;
                     resolve(block);
@@ -224,13 +224,13 @@ class Blockchain {
         //  let hash_error = [];
         return new Promise(async (resolve, reject) => {
 
-            const promises = [];
-            const blockindex = 0;
+            let promises = [];
+            let blockindex = 0;
             self.chain.forEach(block => {
                 promises.push(block.validate());
                 if (block.height > 0) {
                     let previousBlockHash = block.previousBlockHash;
-                    let blockHash = chain[blockindex - 1].hash;
+                    let blockHash = self.chain[blockindex - 1].hash;
                     if (blockHash != previousBlockHash) {
                         errorLog.push(`Hash do not match ${block.height} .`);
                     }

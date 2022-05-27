@@ -49,12 +49,12 @@ class Block {
             self.hash = current_hash;
             // Returning the Block is valid
 
-            if (current_hash === recalc_hash) {
-                resolve(true);
+            if (current_hash !== recalc_hash) {
+                resolve(false);
             }
 
             else {
-                reject("hash was tinkered");
+                resolve("true");
             }
         });
     }
