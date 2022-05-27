@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deploy a Remix Contract</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Ethereum Secret Messenger</h1>
+        <hr>
+
+        <label for="message">This site writes a secret message to the Ethereum
+            blockchain!</label>
+        <input id="userInput" type="text">
+
+        <button id="setMessageButton">Set secret message</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+
+        // Connect a the web3 provider
+        var NETWORK = 'Infura';
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            if (NETWORK === 'Ganache') {
+                // To deploy to local network - ganache 
+                web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+            }
+
+            else {
+                // To deploy to test net - rinkeby - using Infura
+                web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/1a7e4280e0884cd1a9384a0e05596da9"));
+            }
+        }
+        console.log(web3);
+        // Set a default account
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        if (NETWORK === 'Ganache') {
+            // To deploy to local network - ganache  - it's the account[0] address
+            var senderAccount = '0x447770950d6BB499926f94C72A183F6A184aCBfF';
+        }
+        else {
+            // To deploy to test net - rinkeby - using Infura 
+            // metamask address
+            var senderAccount = '0xa82483ec0A8a2BC180D6E5c1b760BBE46AD64513';
+        }
+        // Get the contract address
+        var RemixContract = new web3.eth.Contract([
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "x",
+                        "type": "string"
+                    }
+                ],
+                "name": "setMessage",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getMessage",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]);
+
+        // Get the contract abi
+        //var myMessage = RemixContract.at('0xFEbd246112ba7E96F8d19944Ed0D51f12B8C5041');
+        var abiInterface = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "x",
+                        "type": "string"
+                    }
+                ],
+                "name": "setMessage",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getMessage",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]
+
+        if (NETWORK === 'Ganache') {
+            // To deploy to local network - ganache 
+            // from remix
+            var contractAddress = '0x4D11cf080ca920E0a151Bcdd04A5ad595Ea5De7f';
+        }
+        else {
+            // To deploy to test net - rinkeby - using Infura
+            // from remix
+            var contractAddress = '0x7a95fEaB1529aC22BD5041120E727D9511dCB047';
+        }
+
+        var myMessage = new web3.eth.Contract(abiInterface, contractAddress);
+
+        //RemixContract.at('0xFEbd246112ba7E96F8d19944Ed0D51f12B8C5041');
+
+        console.log(myMessage);
+
+        // $("#setMessageButton").click(function () {
+        //     message = $("#userInput").val()
+        //     myMessage.setMessage(message, (error, result) => { message = result });
+        //     console.log($("#userInput").val())
+        // });
+
+        $("#setMessageButton").click(function () {
+            myMessage.methods.setMessage($("#userInput").val())
+                .send({ from: senderAccount })
+                .then(console.log);
+            // console.log($("#userInput").val());
+        })
+
+    </script>
+</body>
+
+</html>
