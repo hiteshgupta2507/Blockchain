@@ -1,14 +1,15 @@
-pragma solidity >=0.4.24;
+pragma solidity ^0.5.0;
 
 //Importing openzeppelin-solidity ERC-721 implemented Standard
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721Metadata.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/IERC721Metadata.sol";
 
 // StarNotary Contract declaration inheritance the ERC721 openzeppelin implementation
-contract StarNotary is ERC721 {
+contract StarNotary is ERC721, ERC721Metadata {
     // Star data
     struct Star {
         string name;
-        string symbol;
     }
 
     // Implement Task 1 Add a name and symbol properties
@@ -22,14 +23,22 @@ contract StarNotary is ERC721 {
     // mapping to check if star exists
     mapping(uint256 => bool) internal allTokens;
 
+    // Token name
+    string public name;
+
+    // Token symbol
+    string public symbol;
+
+    constructor() public ERC721Metadata("Udacity", "UDC") {
+        name = "Udacity";
+        symbol = "UDC";
+    }
+
     // Create Star using the Struct
-    function createStar(
-        string memory _name,
-        string memory _symbol,
-        uint256 _tokenId
-    ) public {
+    function createStar(string memory _name, uint256 _tokenId) public {
         // Passing the name and tokenId as a parameters
-        Star memory newStar = Star(_name, _symbol); // Star is an struct so we are creating a new Star
+        Star memory newStar = Star(_name); // Star is an struct so we are creating a new Star
+        newStar.name = _name;
         tokenIdToStarInfo[_tokenId] = newStar; // Creating in memory the Star -> tokenId mapping
         allTokens[_tokenId] = true;
         _mint(msg.sender, _tokenId); // _mint assign the the star with _tokenId to the sender address (ownership)
@@ -60,6 +69,10 @@ contract StarNotary is ERC721 {
         if (msg.value > starCost) {
             msg.sender.transfer(msg.value - starCost);
         }
+    }
+
+    function name_and_symbol() public view returns (string memory) {
+        return name;
     }
 
     // Implement Task 1 lookUptokenIdToStarInfo
@@ -106,7 +119,7 @@ contract StarNotary is ERC721 {
             ownerOf(_tokenId) == msg.sender,
             "You can't sale the Star you don't owned"
         );
-        address ownerAddressToken = ownerOf(_tokenId);
+        //address ownerAddressToken = ownerOf(_tokenId);
         _transferFrom(msg.sender, _to1, _tokenId);
     }
 }
