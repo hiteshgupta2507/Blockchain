@@ -12,7 +12,7 @@ contract SupplyChain is
     FarmerRole,
     DistributorRole,
     RetailerRole,
-    ConsumerRole    
+    ConsumerRole
 {
     // Define 'owner'
     address _owner;
