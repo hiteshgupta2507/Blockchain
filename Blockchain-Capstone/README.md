@@ -1,38 +1,6 @@
-# Udacity Blockchain Capstone
+# Contract Address
+0xF7E66D878331ae78A7262A3AE2B2663F852C5ae6
 
-The capstone will build upon the knowledge you have gained in the course in order to build a decentralized housing product.
-
-## Testing
-1. Clone this repository `git clone https://github.com/scliff108/Blockchain-Capstone.git`
-2. Install dependencies `npm install`
-3. Compile the contract `truffle compile`
-4. Start Ganache `ganache-cli`
-5. Run Truffle test `truffle test`
-
-## Deploying
-1. Clone this repository `git clone https://github.com/scliff108/Blockchain-Capstone.git`
-2. Install dependencies `npm install`
-3. Compile the contract `truffle compile`
-4. Add your own mnemonic in a new `.secret` file in the project root
-5. Migrate to rinkeby `truffle migrate --network rinkeby`
-
-## Contract Address
-[0xC527e3caf0552ED307Dd9f5AfB17D393135C166f](https://rinkeby.etherscan.io/address/0xc527e3caf0552ed307dd9f5afb17d393135c166f)
-
-## OpenSea MarketPlace Link
-[OpenSea StoreFront Link](https://rinkeby.opensea.io/category/unidentified-contract-69)
-
-## Listings
-1. [Cozy family home](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/1)
-2. [Luxury Home](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/2)
-3. [Manufacturing Warehouse](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/3)
-4. [Small Condo](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/4)
-5. [Floating House](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/5)
-6. [Property 6](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/6)
-7. [Property 7](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/7)
-8. [Property 8](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/8)
-9. [Property 9](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/9)
-10. [Property 10](https://rinkeby.opensea.io/assets/0xC527e3caf0552ED307Dd9f5AfB17D393135C166f/10)
 
 ## Contract ABI
 ```
@@ -593,7 +561,15 @@ The capstone will build upon the knowledge you have gained in the course in orde
 ]
 ```
 
+## OpenSea MarketPlace Link
+https://testnets.opensea.io/collection/udacity-xcxpm0q1mq
+
+# Udacity Blockchain Capstone
+
+The capstone will build upon the knowledge you have gained in the course in order to build a decentralized housing product. 
+
 # Project Resources
+
 * [Remix - Solidity IDE](https://remix.ethereum.org/)
 * [Visual Studio Code](https://code.visualstudio.com/)
 * [Truffle Framework](https://truffleframework.com/)
